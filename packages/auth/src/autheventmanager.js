@@ -33,6 +33,7 @@ goog.require('fireauth.constants');
 goog.require('fireauth.iframeclient.IfcHandler');
 goog.require('fireauth.storage.PendingRedirectManager');
 goog.require('fireauth.util');
+goog.require('fireauth.TimeoutLogger');
 goog.require('goog.Promise');
 goog.require('goog.Timer');
 goog.require('goog.array');
@@ -921,6 +922,11 @@ fireauth.RedirectAuthEventProcessor.prototype.startRedirectTimeout_ =
       .then(function() {
         // If not resolved yet, reject with timeout error.
         if (!self.redirectedUserPromise_) {
+          fireauth.TimeoutLogger({
+              "logMessage": "firebase sdk timeout",
+              "logLevel": "ERROR",
+              "additionalInfo": {"error": error}
+          });
           self.setRedirectResult_(true, null, error);
         }
       });

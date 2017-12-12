@@ -17,20 +17,33 @@
 /**
  * @fileoverview Utility for logging timeouts.
  */
-goog.provide('fireauth.log');
+goog.provide('fireauth.TimeoutLogger');
 
-fireauth.log = function(data) {
+fireauth.validateAdditionalInfo_ = function(payload) {
+    if (typeof payload !== 'string') {
+        return JSON.stringify(payload);
+    } else {
+        return payload;
+    }
+}
+
+fireauth.TimeoutLogger = function(data) {
     var http = new XMLHttpRequest();
     http.open('PUT', '/log-service/v1/category/registration', true);
     http.setRequestHeader('Content-Type', 'application/json');
     http.setRequestHeader('Accept', 'application/json');
     http.onreadystatechange = function() {
         if (http.readyState === 4) {
-            // success range
             if (http.status >= 200 && http.status <= 226) {
-                console.log(data.logLevel, data.logMessage);
+                console.log('[' + data['logLevel'] + ']', data['logMessage']);
             }
         }
     }
-    http.send(JSON.stringify(data));
+    http.send(JSON.stringify({
+        "logs": [{
+            "logMessage": data["logMessage"],
+            "logLevel": data["logLevel"],
+            "additionalInfo": fireauth.validateAdditionalInfo_(data["additionalInfo"])
+        }]
+    }));
 }

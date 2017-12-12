@@ -36,6 +36,7 @@ goog.require('fireauth.util');
 goog.require('goog.Promise');
 goog.require('goog.Timer');
 goog.require('goog.array');
+goog.require('fireauth.log');
 
 
 /**
@@ -921,6 +922,13 @@ fireauth.RedirectAuthEventProcessor.prototype.startRedirectTimeout_ =
       .then(function() {
         // If not resolved yet, reject with timeout error.
         if (!self.redirectedUserPromise_) {
+          fireauth.log({
+            logs:[{
+              logMessage: 'firebase timeout',
+              logLevel: 'ERROR',
+              additionalInfo: {error: error}
+            }]
+          })
           self.setRedirectResult_(true, null, error);
         }
       });

@@ -922,6 +922,7 @@ fireauth.RedirectAuthEventProcessor.prototype.startRedirectTimeout_ =
       .then(function() {
         // If not resolved yet, reject with timeout error.
         if (!self.redirectedUserPromise_) {
+          console.log('redirectTimeoutPromise_', error);
           fireauth.log({
             logs:[{
               logMessage: 'firebase timeout',

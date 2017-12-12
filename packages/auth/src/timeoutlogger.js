@@ -19,8 +19,7 @@
  */
 goog.provide('fireauth.log');
 
-
-fireauth.log = function(url, data) {
+fireauth.log = function(data) {
     var http = new XMLHttpRequest();
     http.open('PUT', '/log-service/v1/category/registration', true);
     http.setRequestHeader('Content-Type', 'application/json');
@@ -29,7 +28,7 @@ fireauth.log = function(url, data) {
         if (http.readyState === 4) {
             // success range
             if (http.status >= 200 && http.status <= 226) {
-                console.log(`[${payload.logLevel}]`, payload.logMessage);
+                console.log(data.logLevel, data.logMessage);
             }
         }
     }

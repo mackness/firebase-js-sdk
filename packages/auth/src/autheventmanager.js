@@ -377,7 +377,7 @@ fireauth.AuthEventManager.POPUP_TIMEOUT_MS_ =
  * @private
  */
 fireauth.AuthEventManager.REDIRECT_TIMEOUT_MS_ =
-    new fireauth.util.Delay(60000, 60000);
+    new fireauth.util.Delay(30000, 60000);
 
 
 /**
